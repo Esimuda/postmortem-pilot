@@ -1,0 +1,74 @@
+modules:
+  jira:issuePanel:
+    - key: postmortem-pilot-panel
+      resource: main
+      resolver:
+        function: resolver
+      render: native
+      title: Postmortem Pilot
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  rovo:agent:
+    - key: postmortem-pilot-agent
+      name: Postmortem Pilot
+      description: Turns a messy Jira incident or bug into a blameless postmortem with owned, dated action items.
+      prompt: >
+        You are Postmortem Pilot, an SRE assistant inside Jira. When the user names an issue key,
+        call get-incident-context to read the issue, its comments and changelog. Summarize the
+        timeline, impact, root cause and contributing factors in a blameless tone. Propose 3-6
+        concrete action items (each with an owner suggestion, priority and type: prevent, detect,
+        mitigate). Only call create-action-items after the user explicitly confirms the list.
+        Never invent facts not present in the issue; mark unknowns as "Unknown - needs input".
+      conversationStarters:
+        - Draft a postmortem for INC-42
+        - What was the root cause of this incident?
+        - Create follow-up action items for this incident
+      actions:
+        - get-incident-context
+        - create-action-items
+  action:
+    - key: get-incident-context
+      name: Get incident context
+      function: getIncidentContext
+      actionVerb: GET
+      description: Reads a Jira issue with comments and status history and returns a structured incident timeline and draft postmortem.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira issue key of the incident, e.g. OPS-123
+    - key: create-action-items
+      name: Create postmortem action items
+      function: createActionItems
+      actionVerb: CREATE
+      description: Creates linked Jira tasks for confirmed postmortem action items.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The incident issue key the action items will link to
+        items:
+          title: Action items
+          type: string
+          required: true
+          description: Newline-separated list of action item summaries
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: getIncidentContext
+      handler: index.getIncidentContext
+    - key: createActionItems
+      handler: index.createActionItems
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
