@@ -1,6 +1,9 @@
 # Devpost submission fields · Codegeist 2026
 
 **Hackathon:** https://codegeist2026.devpost.com/  
+**Rules:** https://codegeist2026.devpost.com/rules  
+**Manage submissions:** https://devpost.com/submit-to/31572-codegeist-2026-build-with-context-ship-with-confidence/manage/submissions  
+**Status (31 Oct 2026):** Path A (live Forge + Rovo) NOT done — needs Atlassian login. See docs/SUBMIT_CHECKLIST.md.  
 **Submit page:** after Join Hackathon → Enter a Submission  
 **Do not submit from automation** — needs Olabowale’s Devpost + Atlassian browser login. Paste the blocks below.
 
@@ -53,14 +56,18 @@ https://github.com/Esimuda/postmortem-pilot
 
 ## Demo video URL
 ```
-<PASTE public YouTube URL after recording — see docs/DEMO_WALKTHROUGH.md Path A>
+TBD — Path A YouTube (live Jira panel + Rovo) not recorded yet.
+Stopgap Path B (local builder + preview + tests, NOT live Jira):
+https://github.com/Esimuda/postmortem-pilot/blob/main/docs/demo/postmortem-pilot-walkthrough.mp4
+https://drive.google.com/file/d/1RYqfcN5NYqB_57hSc8gLojzECHXAvzQH/view
+(Rules require a PUBLIC YOUTUBE video — upload Path B to YouTube if submitting a draft early.)
 ```
 Requirements: under 5 minutes (aim ≤3), shows the Project functioning, public on YouTube, English.
 
 ## Installation / access for judges (required)
 ```
-<PASTE Distribution install link after forge deploy -e production + Sharing enabled>
-https://developer.atlassian.com/console/install/<APP_ID>?signature=...&product=jira
+TBD — Forge share link not yet created (needs forge login → forge register → forge deploy -e production → Console › Distribution › Sharing).
+Format: https://developer.atlassian.com/console/install/<APP_ID>?signature=...&product=jira
 ```
 Setup instructions for judges: **docs/JUDGES.md** in the repo (also paste a short version below).
 
@@ -97,7 +104,7 @@ Built entirely on Atlassian Forge with a committed manifest.yml.
 ```
 
 ## Cover image / gallery
-- Prefer a screenshot of the issue panel on OPS-7 (Path A), or the static preview `docs/preview/panel.html` until live deploy exists.
+- Prefer a screenshot of the issue panel on OPS-7 (Path A), or the static preview `docs/preview/panel.html` (frames in docs/demo/frames/) until live deploy exists.
 - Optional second image: Rovo Chat reply for OPS-7.
 
 ## Team
