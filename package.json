@@ -4,12 +4,21 @@
   "private": true,
   "license": "MIT",
   "type": "commonjs",
-  "scripts": { "test": "node --test test/*.test.js", "lint": "forge lint" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "demo": "node scripts/demo-local.js",
+    "lint": "forge lint"
+  },
   "dependencies": {
     "@forge/api": "^5.0.0",
     "@forge/bridge": "^4.0.0",
     "@forge/react": "^11.0.0",
     "@forge/resolver": "^1.6.0",
     "react": "^18.2.0"
+  },
+  "description": "Forge Jira issue panel + Rovo agent that turns messy incidents into blameless postmortems with owned action items",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Esimuda/postmortem-pilot.git"
   }
 }

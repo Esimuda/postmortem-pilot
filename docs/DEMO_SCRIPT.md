@@ -1,5 +1,7 @@
 # Demo video script (≤3 min) · narrator: Israel
 
+**Full click-by-click + Atlassian login + local fallback:** [DEMO_WALKTHROUGH.md](./DEMO_WALKTHROUGH.md)
+
 | Time | Screen (what to click) | Voiceover |
 |---|---|---|
 | 0:00–0:15 | Title card "Postmortem Pilot · Forge + Rovo" over Jira | "Every incident ends the same way: a long Jira thread nobody turns into a postmortem. Postmortem Pilot fixes that inside Jira." |
@@ -8,6 +10,6 @@
 | 1:15–1:40 | Point to action items with prevent/detect/mitigate lozenges; untick one | "It suggests action items tagged prevent, detect and mitigate. I keep the ones that matter." |
 | 1:40–2:00 | Click **Publish postmortem** → success message → scroll to new comment and linked tasks | "Publish posts a blameless postmortem comment and creates linked tasks with a postmortem-action label, so follow-ups are tracked, not forgotten." |
 | 2:00–2:40 | Open Rovo Chat → Postmortem Pilot agent → type "Draft a postmortem for OPS-7" → agent replies → "Yes, create the first two" → shows created keys | "It's also a Rovo agent. Ask in plain English and it pulls the same incident context, writes the narrative, and only creates tasks after I confirm." |
-| 2:40–3:00 | README/architecture slide: manifest modules | "Built on Forge with a Jira issue panel, a Rovo agent and two Rovo actions. Postmortem Pilot: from messy incident to accountable follow-up in under a minute." |
+| 2:40–3:00 | Back on panel + linked task (not a slide deck) | "Built on Forge with a Jira issue panel, a Rovo agent and two Rovo actions. Postmortem Pilot: from messy incident to accountable follow-up in under a minute." |
 
-Recording tips: 1080p, hide personal tabs, use a dev site with sample issue from docs/JUDGES.md. Upload as **Public** on YouTube and paste the link into Devpost.
+Recording tips: 1080p, hide personal tabs, use a dev site with sample issue from docs/JUDGES.md. **Record a real walkthrough of the working app** (Path A in DEMO_WALKTHROUGH.md). Upload as **Public** on YouTube and paste the link into Devpost. If Forge is not installed yet, use Path B (`npm test` + `docs/preview/panel.html`) only as a stopgap — Devpost still needs the live Forge path.

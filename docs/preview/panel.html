@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Postmortem Pilot — static panel preview (OPS-7)</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #172b4d;
+      --muted: #6b778c;
+      --border: #dfe1e6;
+      --primary: #0c66e4;
+      --success-bg: #dcfff1;
+      --success-text: #216e4e;
+      --removed-bg: #ffeceb;
+      --removed-text: #ae2e24;
+      --inprogress-bg: #e9f2ff;
+      --inprogress-text: #0055cc;
+      --moved-bg: #f3f0ff;
+      --moved-text: #5e4db2;
+      --card: #fafbfc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f4f5f7; color: var(--text); padding: 24px;
+    }
+    .chrome {
+      max-width: 720px; margin: 0 auto; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; box-shadow: 0 1px 2px rgba(9,30,66,.08); overflow: hidden;
+    }
+    .chrome-bar {
+      display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--border);
+      background: #fafbfc; font-size: 12px; color: var(--muted);
+    }
+    .chrome-bar strong { color: var(--text); font-size: 13px; }
+    .badge { background: #deebff; color: #0052cc; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+    .panel { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .banner {
+      background: #fff7d6; border: 1px solid #f5cd47; color: #7a5d00; padding: 8px 10px; border-radius: 4px; font-size: 12px;
+    }
+    .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lozenge {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
+      padding: 2px 6px; border-radius: 3px;
+    }
+    .lozenge.removed { background: var(--removed-bg); color: var(--removed-text); }
+    .lozenge.default { background: #f1f2f4; color: #44546f; }
+    .lozenge.success { background: var(--success-bg); color: var(--success-text); }
+    .lozenge.inprogress { background: var(--inprogress-bg); color: var(--inprogress-text); }
+    .lozenge.moved { background: var(--moved-bg); color: var(--moved-text); }
+    .card {
+      border: 1px solid var(--border); border-radius: 4px; padding: 12px; background: var(--card);
+    }
+    h5 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    p { margin: 0; font-size: 14px; line-height: 1.4; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    .action { display: flex; align-items: flex-start; gap: 8px; margin: 6px 0; }
+    .action label { flex: 1; font-size: 14px; cursor: pointer; }
+    .actions-bar { display: flex; gap: 8px; }
+    button {
+      border: none; border-radius: 3px; padding: 8px 12px; font-size: 14px; font-weight: 500; cursor: pointer;
+    }
+    button.primary { background: var(--primary); color: #fff; }
+    button.primary:disabled { opacity: .5; cursor: not-allowed; }
+    button.subtle { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .success-msg {
+      background: var(--success-bg); color: var(--success-text); border: 1px solid #abf5d1;
+      padding: 10px 12px; border-radius: 4px; font-size: 14px;
+    }
+    .footnote { max-width: 720px; margin: 12px auto 0; font-size: 12px; color: var(--muted); }
+    code { background: #f1f2f4; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="chrome">
+    <div class="chrome-bar">
+      <span class="badge">STATIC PREVIEW</span>
+      <strong>Postmortem Pilot</strong>
+      <span>· issue panel on OPS-7 (no Atlassian connection)</span>
+    </div>
+    <div class="panel">
+      <div class="banner">
+        Fallback UI for local demos / screenshots. Live path: <code>forge deploy</code> + install link. Publish here is simulated only.
+      </div>
+      <div class="row" id="meta">
+        <span class="lozenge removed">Highest</span>
+        <span class="lozenge default">Done</span>
+        <span>38 min to resolve</span>
+      </div>
+      <div class="card">
+        <h5>Summary</h5>
+        <p>Customers reported 500s on /checkout starting 14:02 after deploy v2.31.</p>
+      </div>
+      <div class="card">
+        <h5>Root cause</h5>
+        <p>Root cause: migration added a lock on orders table causing query timeouts.</p>
+      </div>
+      <div>
+        <h5>Timeline</h5>
+        <table>
+          <thead><tr><th>Time</th><th>Event</th></tr></thead>
+          <tbody>
+            <tr><td>10-28 14:02</td><td>Issue created by Ada Okonkwo</td></tr>
+            <tr><td>10-28 14:10</td><td>Status To Do → In Progress (Ada Okonkwo)</td></tr>
+            <tr><td>10-28 14:15</td><td>Ife Adebayo: Customer support pinged us — checkout failing for ~12% of sessions.</td></tr>
+            <tr><td>10-28 14:40</td><td>Status In Progress → Done (Ife Adebayo)</td></tr>
+            <tr><td>10-28 14:40</td><td>Ife Adebayo: Rolled back at 14:40, errors dropped.</td></tr>
+            <tr><td>10-28 14:55</td><td>Chioma Eze: Root cause: migration added a lock on orders table causing query timeouts.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h5>Action items</h5>
+        <div class="action">
+          <input type="checkbox" id="a0" checked />
+          <label for="a0">Add latency SLO alert and dashboard for the affected service</label>
+          <span class="lozenge inprogress">detect</span>
+        </div>
+        <div class="action">
+          <input type="checkbox" id="a1" checked />
+          <label for="a1">Add canary + automated rollback to the deploy pipeline</label>
+          <span class="lozenge success">prevent</span>
+        </div>
+        <div class="action">
+          <input type="checkbox" id="a2" checked />
+          <label for="a2">Add slow-query logging and index review to runbook</label>
+          <span class="lozenge moved">mitigate</span>
+        </div>
+      </div>
+      <div id="result" class="success-msg" hidden></div>
+      <div class="actions-bar" id="buttons">
+        <button class="primary" id="publish" type="button">Publish postmortem</button>
+        <button class="subtle" id="regen" type="button">Regenerate</button>
+      </div>
+    </div>
+  </div>
+  <p class="footnote">
+    Mirrors <code>src/frontend/index.jsx</code> layout with sample OPS-7 data from <code>scripts/demo-local.js</code>.
+    See <code>docs/DEMO_WALKTHROUGH.md</code> Path B.
+  </p>
+  <script>
+    const keys = ['OPS-8', 'OPS-9', 'OPS-10'];
+    const publish = document.getElementById('publish');
+    const result = document.getElementById('result');
+    const regen = document.getElementById('regen');
+    publish.addEventListener('click', () => {
+      const selected = [0, 1, 2].filter((i) => document.getElementById('a' + i).checked);
+      if (!selected.length) { alert('Select at least one action item'); return; }
+      const created = selected.map((_, i) => keys[i]);
+      result.hidden = false;
+      result.textContent = 'Posted postmortem comment and created ' + created.length +
+        ' linked tasks: ' + created.join(', ') + ' (simulated)';
+      publish.disabled = true;
+    });
+    regen.addEventListener('click', () => {
+      [0, 1, 2].forEach((i) => { document.getElementById('a' + i).checked = true; });
+      result.hidden = true;
+      publish.disabled = false;
+    });
+  </script>
+</body>
+</html>
