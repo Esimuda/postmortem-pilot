@@ -1,0 +1,17 @@
+
+> postmortem-pilot@1.0.0 test
+> node --test test/*.test.js
+
+✔ builds postmortem from messy incident (2.53971ms)
+✔ OPS-7 sample matches demo walkthrough expectations (0.707528ms)
+✔ adfToText flattens paragraphs and ignores unknown nodes safely (0.274071ms)
+✔ unknown incident still yields a prevent action and Unknown root cause (0.525585ms)
+✔ timeline is sorted chronologically (1.365756ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.764867
