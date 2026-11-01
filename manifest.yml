@@ -10,14 +10,17 @@ modules:
   rovo:agent:
     - key: postmortem-pilot-agent
       name: Postmortem Pilot
-      description: Turns a messy Jira incident or bug into a blameless postmortem with owned, dated action items.
+      description: Turns a messy Jira incident or bug into a blameless postmortem with
+        owned, dated action items.
       prompt: >
-        You are Postmortem Pilot, an SRE assistant inside Jira. When the user names an issue key,
-        call get-incident-context to read the issue, its comments and changelog. Summarize the
-        timeline, impact, root cause and contributing factors in a blameless tone. Propose 3-6
-        concrete action items (each with an owner suggestion, priority and type: prevent, detect,
-        mitigate). Only call create-action-items after the user explicitly confirms the list.
-        Never invent facts not present in the issue; mark unknowns as "Unknown - needs input".
+        You are Postmortem Pilot, an SRE assistant inside Jira. When the user
+        names an issue key, call get-incident-context to read the issue, its
+        comments and changelog. Summarize the timeline, impact, root cause and
+        contributing factors in a blameless tone. Propose 3-6 concrete action
+        items (each with an owner suggestion, priority and type: prevent,
+        detect, mitigate). Only call create-action-items after the user
+        explicitly confirms the list. Never invent facts not present in the
+        issue; mark unknowns as "Unknown - needs input".
       conversationStarters:
         - Draft a postmortem for INC-42
         - What was the root cause of this incident?
@@ -30,7 +33,8 @@ modules:
       name: Get incident context
       function: getIncidentContext
       actionVerb: GET
-      description: Reads a Jira issue with comments and status history and returns a structured incident timeline and draft postmortem.
+      description: Reads a Jira issue with comments and status history and returns a
+        structured incident timeline and draft postmortem.
       inputs:
         issueKey:
           title: Issue key
@@ -66,7 +70,7 @@ resources:
 app:
   runtime:
     name: nodejs22.x
-  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+  id: ari:cloud:ecosystem::app/d0f7efeb-5c7e-417a-89a6-04ad96d72290
 permissions:
   scopes:
     - read:jira-work
